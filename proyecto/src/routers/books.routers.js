@@ -46,7 +46,7 @@ router.put('/books', booksCtrl.updateBook);
 
 //Elimina el libro de la BBDD.
 ////**************************DELETE http://localhost:3000/books/1 /// */
-router.delete('/books/:id', booksCtrl.deleteBook);
+router.delete('/books', booksCtrl.deleteBook);
 
 
 

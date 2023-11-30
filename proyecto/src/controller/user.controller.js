@@ -1,4 +1,5 @@
 const { pool } = require('../database')
+const {express} = require('express')
 
 
 const postUser = async (request, response) => {
@@ -44,6 +45,26 @@ const postLogin = async (request, response) => {
 };
 
 
+const putUser = async (request, response) => {
+    try{
+        const {name, last_name, email, photo, Id_user} = request.body;
+       
+        const sql = 'UPDATE user SET name = ?, last_name = ?, email = ?, photo = ? WHERE Id_user = ?';
+        const [result] = await pool.query(sql, [name, last_name, email, photo, Id_user]);
+        console.log(result)
+      
+          // Verifica si la actualización fue exitosa
+          if (result) {
+            response.send({ error: false, codigo: 200, message: "Usuario actualizado correctamente" });
+          } else {
+            response.status(500).send({ error: true, codigo: 500, message: "No se pudo actualizar el usuario" });
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          response.status(500).send({ error: true, codigo: 500, message: "Error interno del servidor" });
+        }
+      };
+
 
 
 
@@ -51,5 +72,5 @@ module.exports = {
     
     postUser,
     postLogin,
-   
+    putUser,
 };
