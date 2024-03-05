@@ -59,7 +59,7 @@ const getBookByIdAndUserId = async (request, response) =>
 
 const addBook = async (request, response) => {
   try {
-    const {title, type, author, price, photo, Id_user, } = request.body;
+    const {title, type, author, price, photo, Id_user } = request.body;
 
     // Verifica que los datos necesarios estén presentes en la solicitud
     // if (!id_user || !title || !type || !author || !price || !photo) {
@@ -67,11 +67,11 @@ const addBook = async (request, response) => {
     // }
 
     // Realiza la inserción en la base de datos
-    const sql = 'INSERT INTO book ( title, type, author, price, photo) VALUES (?, ?, ?, ?, ?)';
+    const sql = 'INSERT INTO book ( title, type, author, price, photo, Id_user) VALUES (?, ?, ?, ?, ?, ?)';
     const [result] = await pool.query(sql, [ title, type, author, price, photo, Id_user]);
 
     // Verifica si la inserción fue exitosa
-    if (result.affectedRows === 1) {
+    if (result.affectedRows >= 1) {
       response.send({ error: false, codigo: 201, message: "Libro añadido correctamente" });
     } else {
       response.status(500).send({ error: true, codigo: 500, message: "No se pudo agregar el libro" });
